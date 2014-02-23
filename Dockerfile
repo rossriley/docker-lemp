@@ -11,8 +11,6 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 EXPOSE 80 443
 
 # Install PHP5 and modules
-RUN echo "deb http://archive.ubuntu.com/ubuntu saucy main universe" > /etc/apt/sources.list
-RUN apt-get update
 RUN apt-get install -y curl git
 RUN apt-get -y install php5-fpm php5-mysql php-apc php5-mcrypt php5-curl php5-gd php5-json php5-cli
 RUN sed -i -e "s/short_open_tag = Off/short_open_tag = On/g" /etc/php5/fpm/php.ini
@@ -27,8 +25,6 @@ RUN echo "date.timezone = Europe/London;" >> etc/php5/fpm/php.ini
 
 VOLUME ["/data/mysql"]
 # Install MariaDB
-RUN echo "deb http://archive.ubuntu.com/ubuntu saucy main universe" > /etc/apt/sources.list
-RUN apt-get update
 RUN apt-get -y install software-properties-common
 RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
 RUN add-apt-repository 'deb http://ftp.osuosl.org/pub/mariadb/repo/10.0/ubuntu saucy main'
@@ -39,8 +35,8 @@ RUN sed -i "/^datadir*/ s|=.*|=/data/mysql|" /etc/mysql/my.cnf
 RUN chown -R mysql:mysql /data/mysql
 RUN mysql_install_db
 
-RUN apt-get install -y supervisor
 
+RUN apt-get install -y supervisor
 ADD supervisor/nginx.conf /etc/supervisor/conf.d/
 ADD supervisor/php.conf /etc/supervisor/conf.d/
 ADD supervisor/mariadb.conf /etc/supervisor/conf.d/
