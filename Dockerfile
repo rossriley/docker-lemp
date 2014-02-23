@@ -41,5 +41,8 @@ ADD supervisor/nginx.conf /etc/supervisor/conf.d/
 ADD supervisor/php.conf /etc/supervisor/conf.d/
 ADD supervisor/mariadb.conf /etc/supervisor/conf.d/
 
+ADD config/nginx.conf /etc/nginx/sites-available/default
+
+
 
 CMD ["/usr/bin/supervisord", "-n"]
